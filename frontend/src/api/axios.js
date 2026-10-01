@@ -5,21 +5,21 @@ import { CATEGORIES, filterProducts, findProduct } from "../data/catalog.js";
  * Where the API lives.
  *
  * - In development Vite proxies /api to the local server (vite.config.js).
- * - On a deployed site the default is the CookMe API on Vercel.
+ * - On a deployed site the default is the CookMe API on Render.
  * - VITE_API_URL overrides both, so a preview or a second backend needs no
  *   code change — set it in Vercel → Settings → Environment Variables and
  *   redeploy (Vite bakes the value in at build time).
  */
-const DEPLOYED_API = "https://mv-new-backend.vercel.app/api";
+const DEPLOYED_API = "https://cook-3-7qr0.onrender.com/api";
 
 const baseURL =
   import.meta.env.VITE_API_URL || (import.meta.env.PROD ? DEPLOYED_API : "/api");
 
 const api = axios.create({
   baseURL,
-  // Long enough for a cold serverless function, short enough that a broken
-  // API does not hold the page hostage.
-  timeout: 8000,
+  // Render's free plan sleeps when idle and needs up to ~50 seconds to wake,
+  // so the first request after a quiet spell must be allowed to wait.
+  timeout: 60000,
 });
 
 api.interceptors.request.use((config) => {
