@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/cookme-mark.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta
+      name="description"
+      content="CookMe — Healthy. Fresh. Ready. Shop authentic products with fast nationwide delivery and cash on delivery."
+    />
+    <title>CookMe | Healthy. Fresh. Ready.</title>
+    <script>
+      // Apply the saved theme before first paint so dark mode never flashes.
+      (function () {
+        try {
+          var saved = localStorage.getItem("cookme-theme");
+          var dark = saved
+            ? saved === "dark"
+            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (dark) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
