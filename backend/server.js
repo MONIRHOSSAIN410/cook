@@ -26,8 +26,18 @@ const ALLOWED = (process.env.CLIENT_URL || "")
   .map(trimSlash)
   .filter(Boolean);
 
+// The shop's own front ends are always allowed, whatever CLIENT_URL says:
+// the Vercel site (and its preview URLs) and the local Vite dev server.
+const BUILT_IN = [
+  "https://cook-bice.vercel.app",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+];
+
 function isAllowed(origin) {
   if (!ALLOWED.length) return true;
+  if (BUILT_IN.includes(trimSlash(origin))) return true;
+  if (/^https:\/\/cook-[a-z0-9-]+\.vercel\.app$/.test(trimSlash(origin))) return true;
   const clean = trimSlash(origin);
   const host = (() => {
     try {
